@@ -26,6 +26,7 @@ import com.self.medstore.mapper.CustomerMapper;
 import com.self.medstore.mapper.OrderMapper;
 import com.self.medstore.service.CustomerService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -59,6 +60,7 @@ public class CustomerController {
 
 	// Update customer
 	@PutMapping("/{id}/update")
+	@Operation(summary = "update your details")
 	public ResponseEntity<CustomerResponseDTO> updateCustomer(@PathVariable Long id,
 			@RequestBody CustomerRequestDTO dto) {
 		Customer updatedCustomer = customerService.updateCustomer(id, customerMapper.toEntity(dto));
@@ -67,19 +69,22 @@ public class CustomerController {
 
 	//3. Place an order
 	@PostMapping("/{customerId}/order")
+	@Operation(summary = "place your order")
 	public ResponseEntity<Order> placeOrder(@PathVariable Long customerId, @RequestBody @Valid OrderRequestDTO dto) {
 		//		return customerService.placeOrder(customerId, dto.getMedicineIdAndQuantity());
 		return new ResponseEntity<>(customerService.placeOrder(customerId, dto), HttpStatus.OK);
 	}
 
 	//4. View order history
-	@GetMapping("/{customerId}/getorders")
+	@GetMapping("/{customerId}/orders")
+	@Operation(summary = "get your orders")
 	public List<OrderResponseDTO> getOrderHistory(@PathVariable Long customerId) {
 		return customerService.getCustomerOrders(customerId).stream().map(orderMapper::toDTO).toList();
 	}
 
 	//5. cancel an order item
 	@DeleteMapping("/{customerId}/cancel/{orderId}/item/{orderItemId}")
+	@Operation(summary = "cancel your order")
 	public ResponseEntity<String> cancelOrderItem(@PathVariable long customerId, @PathVariable long orderId,
 			@PathVariable long orderItemId) {
 
