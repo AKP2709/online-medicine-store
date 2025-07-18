@@ -16,6 +16,11 @@ public class StartupDataLoader {
 
 	@Bean
 	public CommandLineRunner loadAdmin() {
+
+         // return new CommandLineRunner() {
+         //     @Override
+         //     public void run(String... args) throws Exception {
+		
 		return args -> {
 			String userName = "divyansh@gmail.com";
 			if (adminRepository.findByUserName(userName).isEmpty()) {
